@@ -1,0 +1,20 @@
+nombre = "gantt"
+descripcion = "Los proyectos en el tiempo: la barra de cada uno, sus actividades, hitos y sesiones, y tus tareas, con lo que diga telar fechas."
+
+# una subpestaña de «proyectos» en el dashboard (necesita telar 0.8.1: telar fechas, window.lienzo.pedir)
+[pestana]
+nombre = "gantt"
+comando = ["bin/gantt.py", "pagina"]
+dentro = "proyectos"
+
+[contexto]
+texto = "El módulo gantt dibuja los proyectos en el tiempo con lo que da `telar fechas` (cronogramas, mapas, hitos, tareas): `telar fechas --proyecto <ruta>` para las de uno."
+
+[requiere]
+programas = ["python3"]
+
+[permisos]
+leer = []
+escribir = ["~/.local/state/telar-gantt"]
+red = false
+ordenes = ["fechas", "proyectos", "fecha"]   # «fecha»: arrastrar una barra la cambia donde vive (se pregunta la primera vez)

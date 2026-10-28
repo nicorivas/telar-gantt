@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Gantt</title>
+<style>
+/*ICONOS*/@font-face { font-family: iconos; src: url(data:font/woff2;base64,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) format('woff2'); }/*/ICONOS*/
+/* El Gantt (el módulo gantt de telar): una fila por proyecto, con su barra (su plazo, o de su primera a su última
+   actividad), sus hitos y sus tareas; adentro, sus actividades, sesiones y entregas. Todo sale de `telar fechas`
+   (bin/gantt.py). Se dibuja en un lienzo de telar: sin red, todo en línea. Colores de catppuccin mocha, letra monoespaciada, sin esquinas redondeadas. Los íconos son de Nerd Fonts
+   (`.i`, la letra `iconos`): la regla de arriba la escribe bin/iconos.py con solo los que se usan aquí. */
+:root {
+  --bg: #1e1e2e; --bg2: #181825; --fg: #cdd6f4; --dim: #6c7086; --linea: #313244; --sel: rgb(128 128 128 / 18%);
+  --azul: #89b4fa; --violeta: #cba6f7; --verde: #a6e3a1; --amarillo: #f9e2af; --cian: #94e2d5; --rojo: #f38ba8; --naranjo: #fab387;
+  --izq: 44ch; --fila: 20px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font: 12px/1.6 Menlo, "SF Mono", iconos, monospace; }
+body { display: flex; flex-direction: column; }
+header { display: flex; flex-wrap: wrap; gap: 0 2ch; align-items: baseline; padding: 4px 1ch; border-bottom: 1px solid var(--linea); }
+header a { color: var(--dim); cursor: pointer; text-decoration: none; }
+header a:hover { color: var(--fg); }
+header a.si { color: var(--azul); }
+header input { width: 34ch; padding: 0 1ch; border: 0; border-bottom: 1px solid var(--linea); background: transparent; color: var(--fg); font: inherit; outline: none; }
+header input:focus { border-bottom-color: var(--azul); }
+header .dim { color: var(--dim); }
+.i { font-family: iconos; font-style: normal; font-weight: normal; }
+header .i { font-size: 14px; }
+header .grupo { display: flex; gap: 0 1.2ch; }
+/* las áreas, con texto y en su color: la elegida, con fondo */
+#areas a { padding: 0 .5ch; } #areas a.si { color: var(--bg); background: var(--c, var(--fg)); }
+.leyenda .i { margin-left: 1.5ch; }
+.act .etq .i { margin-right: .6ch; }
+.act .etq .candado { color: var(--dim); margin: 0 0 0 .6ch; }
+.act .etq .hecho { color: var(--verde); } .act .etq .en-curso { color: var(--azul); } .act .etq .pendiente { color: var(--dim); } .act .etq .cancelado { color: var(--rojo); }
+#cuerpo { flex: 1; overflow: auto; position: relative; }
+#rejilla { position: relative; min-width: 100%; }
+.cab { position: sticky; top: 0; z-index: 3; display: flex; background: var(--bg2); border-bottom: 1px solid var(--linea); }
+.cab .esquina { position: sticky; left: 0; z-index: 4; flex: none; width: var(--izq); background: var(--bg2); border-right: 1px solid var(--linea); padding: 0 1ch; color: var(--dim); }
+.escala { position: relative; flex: none; height: 34px; }
+.escala .m { position: absolute; top: 0; height: 17px; padding-left: 4px; border-left: 1px solid var(--linea); color: var(--fg); white-space: nowrap; overflow: hidden; }
+.escala .s { position: absolute; top: 17px; height: 17px; padding-left: 3px; border-left: 1px solid var(--linea); color: var(--dim); white-space: nowrap; overflow: hidden; }
+.fila { display: flex; height: var(--fila); }
+.fila:hover { background: var(--sel); }
+.etq { position: sticky; left: 0; z-index: 2; flex: none; width: var(--izq); padding: 0 1ch; background: var(--bg); border-right: 1px solid var(--linea);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fila:hover .etq { background: #24243a; }
+.proy .etq { cursor: pointer; }
+.proy .etq b { font-weight: normal; }
+.act .etq { color: var(--dim); padding-left: 3ch; }
+.act .etq .q { color: var(--fg); }
+.linea { position: relative; flex: none; }
+.barra { position: absolute; top: 4px; height: 12px; min-width: 3px; }
+/* lo que se puede mover (su fuente sabe escribirlo, `editable`): se arrastra; una barra, también por sus bordes */
+.mueve { cursor: grab; touch-action: none; } .mueve.arrastrando { cursor: grabbing; opacity: .8; outline: 1px dashed var(--fg); }
+.barra.mueve::before, .barra.mueve.fin::after { content: ''; position: absolute; top: 0; bottom: 0; width: 5px; cursor: ew-resize; }
+.barra.mueve.ini::before { left: -2px; } .barra.mueve.fin::after { right: -2px; }
+#aviso { position: fixed; right: 2ch; bottom: 2lh; z-index: 11; padding: 0 1ch; background: #11111b; border: 1px solid #585b70; }
+#aviso a { color: var(--azul); cursor: pointer; margin-left: 2ch; } #aviso.falla { border-color: var(--rojo); color: var(--rojo); }
+.proy .barra { opacity: .55; }
+.act .barra.hecho { background: color-mix(in srgb, var(--verde) 35%, transparent); }
+.act .barra.en-curso { background: var(--azul); }
+.act .barra.pendiente { border: 1px solid var(--dim); background: color-mix(in srgb, var(--dim) 18%, transparent); }
+.marca { position: absolute; top: 0; width: 12px; margin-left: -6px; text-align: center; line-height: var(--fila); }
+.hito { color: var(--amarillo); }
+.hito.cumplido { color: var(--verde); }
+.tarea { color: var(--naranjo); }
+.tarea.vencida { color: var(--rojo); }
+.evento { color: var(--fg); }
+.hoy { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px solid var(--rojo); z-index: 1; pointer-events: none; }
+.finde { position: absolute; top: 0; bottom: 0; background: rgb(255 255 255 / 2.5%); pointer-events: none; }
+.vacio { padding: 2em 1ch; color: var(--dim); }
+/* el globo: lo que dice cada cosa (su title), al instante y como el de telar (#globo de su dia.css): negro, con borde
+   claro y la sombra de una ventana de terminal, dos franjas de ░ abajo y a la derecha, como la trama del buscador ⌘K */
+#globo { position: fixed; z-index: 10; pointer-events: none; white-space: pre-wrap; max-width: min(60ch, calc(100vw - 3ch));
+  padding: 0 1ch; background: #11111b; color: var(--fg); border: 1px solid #585b70;
+  --sombra: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 16' preserveAspectRatio='none'%3E%3Ctext x='0' y='12.5' font-family='Menlo,monospace' font-size='13' fill='%23cdd6f4' fill-opacity='.32'%3E%E2%96%91%3C/text%3E%3C/svg%3E") 0 0 / 1ch 1lh, rgb(0 0 0 / 75%); }
+#globo::before, #globo::after { content: ''; position: absolute; background: var(--sombra); }
+#globo::before { top: .5lh; bottom: calc(-.5lh - 1px); right: calc(-1ch - 1px); width: 1ch; }
+#globo::after { left: 1ch; right: -1px; bottom: calc(-.5lh - 1px); height: .5lh; }
+#avisos { padding: 4px 1ch; color: var(--dim); border-top: 1px solid var(--linea); max-height: 6lh; overflow: auto; }
+</style></head><body>
+<header>
+  <span class="grupo"><a class="i" data-zoom="dia" title="zoom: un día por columna">&#xf00f6;</a><a class="i" data-zoom="semana" title="zoom: semanas">&#xf0a33;</a><a class="i" data-zoom="mes" title="zoom: meses">&#xf0e17;</a></span>
+  <span class="grupo" id="areas"></span>
+  <span><span class="i dim" title="filtrar">&#xeaf1;</span> <input id="filtro" placeholder="proyecto, cliente, persona, área" spellcheck="false" autocomplete="off"></span>
+  <span class="grupo"><a class="i" id="solo" title="solo los que tienen cronograma">&#xf066c;</a><a class="i" id="todo" title="abrir todos">&#xeb95;</a><a class="i" id="nada" title="plegar todos">&#xeac5;</a><a class="i" id="ir-hoy" title="ir a hoy">&#xf01a4;</a></span>
+  <span class="dim" id="cuenta"></span>
+  <span class="dim leyenda"><span title="proyecto: su barra, de su plazo o de sus actividades">▬</span><span class="i hito" title="hito (relleno: cumplido)">&#xf023d;</span><span class="i tarea" title="tu tarea de telar (en rojo, vencida)">&#xf012f;</span><span class="i evento" title="un día: evento, sesión o entrega">&#xf09d3;</span></span>
+</header>
+<div id="cuerpo"><div id="rejilla"></div></div>
+<div id="avisos" hidden></div>
+<div id="globo" hidden></div>
+<div id="aviso" hidden></div>
+<script>
+const DATOS = /*DATOS*/null;
+// cada área con su color, en el orden de las áreas del perfil; las que no nombra, después
+const PALETA = ['var(--violeta)', 'var(--azul)', 'var(--verde)', 'var(--amarillo)', 'var(--cian)', 'var(--naranjo)', 'var(--rojo)'];
+const AREAS = {};
+for (const a of [...DATOS.areas, ...DATOS.proyectos.map((p) => p.area).filter(Boolean)]) if (!(a in AREAS)) AREAS[a] = PALETA[Object.keys(AREAS).length % PALETA.length];
+const PX = { dia: 26, semana: 7, mes: 2.2 };
+// el estado de una actividad, en su fila: hecha, en curso, pendiente
+const ESTADO_ICONO = { hecho: '\u{ebb3}', 'en-curso': '\u{f1396}', pendiente: '\u{eabc}', cancelado: '\u{eabd}' };
+const DIA = 86400000;
+const esc = (t) => String(t ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const norm = (t) => String(t ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const fecha = (s) => Date.parse(s + 'T00:00:00');
+const L = window.lienzo || {};
+const mem = Object.assign({ zoom: 'semana', abiertos: [], filtro: '', solo: false, area: '' }, L.memoria || {});
+const guardar = () => { try { L.guardar && L.guardar(mem); } catch (e) { /* sin memoria: solo esta vez */ } };
+const hoy = fecha(DATOS.hoy);
+
+function visibles() {
+  const q = norm(mem.filtro.trim());
+  return DATOS.proyectos.filter((p) => {
+    if (mem.solo && !p.actividades.length) return false;
+    if (mem.area && (p.area || 'sin área') !== mem.area) return false;
+    if (!q) return true;
+    const texto = norm([p.titulo, p.cliente, p.area, p.estado, p.ruta, p.plazo && p.plazo.responsable,
+      ...p.actividades.flatMap((a) => [a.titulo, a.responsable]), ...p.tareas.map((t) => t.id + ' ' + t.titulo)].join(' '));
+    return q.split(/\s+/).every((w) => texto.includes(w));
+  }).sort((a, b) => (a.area || 'ZZ').localeCompare(b.area || 'ZZ') || (a.inicio || '9').localeCompare(b.inicio || '9'));
+}
+
+function rango(ps) {
+  const fechas = ps.flatMap((p) => [p.inicio, p.fin, ...p.actividades.flatMap((a) => [a.inicio, a.fin]), ...p.hitos.map((h) => h.inicio),
+    ...p.tareas.map((t) => t.inicio)]).filter(Boolean).map(fecha);
+  let desde = Math.min(hoy - 30 * DIA, ...fechas), hasta = Math.max(hoy + 60 * DIA, ...fechas);
+  // un proyecto de años (PTEC hasta 2029) no estira todo: de 6 meses atrás a un año adelante; lo de afuera se corta
+  desde = Math.max(desde - 7 * DIA, hoy - 183 * DIA); hasta = Math.min(hasta + 14 * DIA, hoy + 366 * DIA);
+  const d = new Date(desde); d.setDate(d.getDate() - ((d.getDay() + 6) % 7));   // desde un lunes
+  return [d.getTime(), hasta];
+}
+
+// las áreas que hay, en el orden de AREAS y después las otras; cada una con cuántos proyectos tiene
+function pintarAreas() {
+  const cuenta = {};
+  for (const p of DATOS.proyectos) cuenta[p.area || 'sin área'] = (cuenta[p.area || 'sin área'] || 0) + 1;
+  const lugar = (a) => { const i = Object.keys(AREAS).indexOf(a); return i < 0 ? 99 : i; };
+  const orden = Object.keys(cuenta).sort((a, b) => lugar(a) - lugar(b) || a.localeCompare(b));
+  if (mem.area && !cuenta[mem.area]) mem.area = '';
+  document.getElementById('areas').innerHTML = `<a data-area="" class="${mem.area ? '' : 'si'}" title="todas las áreas">todas</a>`
+    + orden.map((a) => `<a data-area="${esc(a)}" class="${mem.area === a ? 'si' : ''}" style="color:${mem.area === a ? 'var(--bg)' : AREAS[a] || 'var(--dim)'};--c:${AREAS[a] || 'var(--dim)'}" title="${esc(`solo ${a}: ${cuenta[a]} proyectos`)}">${esc(a)} ${cuenta[a]}</a>`).join('');
+}
+
+// lo que se puede mover: `editable` de cada fecha (lo pone telar), y una página que sabe pedir (`window.lienzo.pedir`)
+const PUEDE = typeof L.pedir === 'function';
+const mueve = (f) => (PUEDE && f.editable && f.editable.includes('inicio') ? ' mueve ini' + (f.editable.includes('fin') ? ' fin' : '') : '');
+// lo que no se mueve, y por qué: en su globo, con el candado (y el candado al lado de su nombre)
+const CANDADO = '\u{ea75}';
+const bloqueo = (f) => (PUEDE && !mueve(f) ? `${CANDADO} no se puede mover: ${f.bloqueo || 'su fuente no lo deja escribir'}\n` : '');
+const fechaPorId = () => Object.fromEntries(DATOS.proyectos.flatMap((p) => [...p.actividades, ...p.tareas]).map((f) => [f.id, f]));
+let ultimoX = { desde: 0, px: 1 };
+
+function pintar() {
+  pintarAreas();
+  for (const a of document.querySelectorAll('[data-zoom]')) a.classList.toggle('si', a.dataset.zoom === mem.zoom);
+  document.getElementById('solo').classList.toggle('si', mem.solo);
+  const ps = visibles();
+  const [desde, hasta] = rango(ps);
+  const px = PX[mem.zoom], ancho = Math.ceil((hasta - desde) / DIA * px);
+  const x = (s) => (Math.min(Math.max(fecha(s), desde), hasta) - desde) / DIA * px;
+  ultimoX = { desde, px };
+  const h = [];
+  // la escala: meses arriba; abajo semanas (o días, con zoom de día; nada, con zoom de mes)
+  const esc1 = [], esc2 = [];
+  const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+  for (let d = new Date(desde); d.getTime() < hasta; d.setMonth(d.getMonth() + 1, 1)) {
+    const ini = Math.max(d.getTime(), desde), fin = new Date(d.getFullYear(), d.getMonth() + 1, 1).getTime();
+    esc1.push(`<div class="m" style="left:${(ini - desde) / DIA * px}px;width:${(Math.min(fin, hasta) - ini) / DIA * px}px">${MESES[d.getMonth()]} ${String(d.getFullYear()).slice(2)}</div>`);
+  }
+  if (mem.zoom !== 'mes') {
+    const paso = mem.zoom === 'dia' ? 1 : 7;
+    for (let t = desde; t < hasta; t += paso * DIA) {
+      const d = new Date(t);
+      const txt = mem.zoom === 'dia' ? String(d.getDate()) : `${d.getDate()}/${d.getMonth() + 1}`;
+      esc2.push(`<div class="s" style="left:${(t - desde) / DIA * px}px;width:${paso * px}px">${txt}</div>`);
+    }
+  }
+  h.push(`<div class="cab"><div class="esquina" title="proyectos que se ven"><span class="i">\u{eaac}</span> ${ps.length}</div><div class="escala" style="width:${ancho}px">${esc1.join('')}${esc2.join('')}</div></div>`);
+  // los fines de semana, con zoom de día
+  const fondo = [];
+  if (mem.zoom === 'dia') for (let t = desde; t < hasta; t += DIA) { const g = new Date(t).getDay(); if (g === 6) fondo.push(`<div class="finde" style="left:calc(var(--izq) + ${(t - desde) / DIA * px}px);width:${2 * px}px"></div>`); }
+  for (const p of ps) {
+    const abierto = mem.abiertos.includes(p.ruta), color = AREAS[p.area] || 'var(--dim)';
+    const tip = [p.titulo, p.cliente, p.area && `área ${p.area}`, p.estado && `estado ${p.estado}`, p.inicio && `${p.inicio} → ${p.fin}`,
+      p.plazo ? [p.plazo.titulo !== p.titulo && p.plazo.titulo, p.plazo.responsable].filter(Boolean).join(' · ')
+        + (p.plazo.bloqueo ? `\n${CANDADO} ${p.plazo.bloqueo}` : '')
+        : (p.barra === 'actividades' ? '(la barra va de su primera a su última actividad: ninguna fuente da su plazo)' : ''),
+      `${p.actividades.length} actividades · ${p.hitos.length} hitos · ${p.tareas.length} tareas`, p.ruta].filter(Boolean).join('\n');
+    let linea = '';
+    if (p.inicio && p.fin) linea += `<div class="barra" style="left:${x(p.inicio)}px;width:${Math.max(3, x(p.fin) - x(p.inicio) + px)}px;background:${color}" title="${esc(tip)}"></div>`;
+    for (const hi of p.hitos) linea += `<div class="marca hito ${hi.estado === 'hecho' ? 'cumplido' : ''}" style="left:${x(hi.inicio) + px / 2}px" title="${esc(`${hi.inicio} · ${hi.titulo} · ${hi.estado}`)}"><i class="i">${hi.estado === 'hecho' ? '\u{f023b}' : '\u{f023d}'}</i></div>`;
+    for (const t of p.tareas) {
+      const vencida = fecha(t.inicio) < hoy && !['hecho', 'cancelado'].includes(t.estado);
+      linea += `<div class="marca tarea${vencida ? ' vencida' : ''}${mueve(t)}" data-id="${esc(t.id)}" style="left:${x(t.inicio) + px / 2}px" title="${esc(`${bloqueo(t)}${t.titulo}\nvence ${t.inicio} · ${t.estado}${t.responsable ? ' · ' + t.responsable : ''}\n${t.fuente}`)}"><i class="i">${vencida ? '\u{f0028}' : '\u{f012f}'}</i></div>`;
+    }
+    const nombre = p.cliente && !p.titulo.toLowerCase().includes(p.cliente.toLowerCase()) ? `${p.cliente} · ${p.titulo}` : p.titulo;
+    h.push(`<div class="fila proy" data-ruta="${esc(p.ruta)}"><div class="etq" title="${esc(tip)}">`
+      + `<span class="i" style="color:${color}">${p.actividades.length ? (abierto ? '\u{eab4}' : '\u{eab6}') : '\u{ec07}'}</span> <b>${esc(nombre)}</b></div>`
+      + `<div class="linea" style="width:${ancho}px">${linea}</div></div>`);
+    const titulos = Object.fromEntries(p.actividades.map((a) => [a.id, a.titulo]));
+    if (abierto) for (const a of p.actividades) {
+      const evento = a.inicio === a.fin;
+      const depende = a.depende.map((d) => titulos[d] || d).join(', ');
+      const tipA = `${bloqueo(a)}${a.titulo}\n${a.inicio}${evento ? '' : ' → ' + a.fin}${a.hora ? ' · ' + a.hora : ''} · ${a.clase}${a.responsable ? '\n' + a.responsable : ''}${depende ? '\ndepende de: ' + depende : ''}\n${a.estado}\n${a.fuente}`;
+      const cuerpo = evento
+        ? `<div class="marca evento${mueve(a)}" data-id="${esc(a.id)}" style="left:${x(a.inicio) + px / 2}px" title="${esc(tipA)}"><i class="i">\u{f09d3}</i></div>`
+        : `<div class="barra ${a.estado}${mueve(a)}" data-id="${esc(a.id)}" style="left:${x(a.inicio)}px;width:${Math.max(3, x(a.fin) - x(a.inicio) + px)}px" title="${esc(tipA)}"></div>`;
+      h.push(`<div class="fila act"><div class="etq" title="${esc(tipA)}"><span class="i ${a.estado}">${ESTADO_ICONO[a.estado] || ''}</span><span class="q">${esc(a.titulo)}</span>${PUEDE && !mueve(a) ? `<span class="i candado">${CANDADO}</span>` : ''}${a.responsable ? ' <span class="i">\u{ea67}</span> ' + esc(a.responsable) : ''}</div>`
+        + `<div class="linea" style="width:${ancho}px">${cuerpo}</div></div>`);
+    }
+  }
+  if (!ps.length) h.push('<div class="vacio">nada calza con el filtro</div>');
+  const rejilla = document.getElementById('rejilla');
+  rejilla.innerHTML = h.join('') + fondo.join('') + `<div class="hoy" style="left:calc(var(--izq) + ${(hoy - desde) / DIA * px + px / 2}px)" title="hoy ${DATOS.hoy}"></div>`;
+  rejilla.style.width = `calc(var(--izq) + ${ancho}px)`;
+  document.getElementById('cuenta').innerHTML = `<span title="proyectos: los que se ven, de todos"><span class="i">\u{eaac}</span> ${ps.length}/${DATOS.proyectos.length}</span>`
+    + `  <span title="actividades, sesiones y entregas"><span class="i">\u{eb84}</span> ${ps.reduce((n, p) => n + p.actividades.length, 0)}</span>`;
+  return (hoy - desde) / DIA * px;
+}
+
+function irHoy(xHoy) {
+  const c = document.getElementById('cuerpo');
+  c.scrollLeft = Math.max(0, xHoy - (c.clientWidth - parseFloat(getComputedStyle(document.body).getPropertyValue('--izq')) * 7.2) / 3);
+}
+
+document.querySelector('header').addEventListener('click', (e) => {
+  const a = e.target.closest('a');
+  if (!a) return;
+  if (a.dataset.area !== undefined) { mem.area = a.dataset.area; guardar(); pintar(); }
+  else if (a.dataset.zoom) { mem.zoom = a.dataset.zoom; guardar(); irHoy(pintar()); }
+  else if (a.id === 'solo') { mem.solo = !mem.solo; guardar(); pintar(); }
+  else if (a.id === 'todo') { mem.abiertos = visibles().filter((p) => p.actividades.length).map((p) => p.ruta); guardar(); pintar(); }
+  else if (a.id === 'nada') { mem.abiertos = []; guardar(); pintar(); }
+  else if (a.id === 'ir-hoy') irHoy(pintar());
+});
+document.getElementById('rejilla').addEventListener('click', (e) => {
+  const f = e.target.closest('.fila.proy');
+  if (!f || !e.target.closest('.etq')) return;
+  const s = f.dataset.ruta, i = mem.abiertos.indexOf(s);
+  if (i >= 0) mem.abiertos.splice(i, 1); else mem.abiertos.push(s);
+  guardar(); pintar();
+});
+const filtro = document.getElementById('filtro');
+filtro.value = mem.filtro;
+filtro.addEventListener('input', () => { mem.filtro = filtro.value; guardar(); pintar(); });
+// abajo, lo que falta: los proyectos activos sin ninguna fecha, las filas que no se entendieron y las fuentes caídas
+{
+  const av = document.getElementById('avisos'), partes = [];
+  if (DATOS.sin_fechas.length) partes.push(`<span class="i" title="activos sin ninguna fecha (ni cronograma, ni plazo, ni tareas)">\u{ea6c}</span> ${DATOS.sin_fechas.length}  ` + DATOS.sin_fechas.map(esc).join(' · '));
+  if (DATOS.saltadas) partes.push(`<span title="filas de cronogramas que parecían una fecha y no se entendieron: telar fechas las lista con su archivo y su línea">${DATOS.saltadas} filas sin entender</span>`);
+  for (const f of DATOS.fallas) partes.push(`<span style="color:var(--rojo)">caída · ${esc(f)}</span>`);
+  if (partes.length) { av.hidden = false; av.innerHTML = partes.join('<br>'); }
+}
+// el globo: al pasar sobre algo con title, su texto al tiro, en vez del tooltip del sistema (lento y chico). El title
+// se muda a data-globo la primera vez, así el del sistema no sale encima; lo que se repinta lo trae de nuevo
+const globo = document.getElementById('globo');
+let bajo = null;
+function mostrarGlobo(el) {
+  if (el.hasAttribute('title')) { el.dataset.globo = el.getAttribute('title'); el.removeAttribute('title'); }
+  const texto = el.dataset.globo;
+  if (!texto) { globo.hidden = true; return; }
+  bajo = el;
+  globo.textContent = texto;
+  globo.hidden = false;
+  const r = el.getBoundingClientRect(), g = globo.getBoundingClientRect();
+  const x = Math.min(Math.max(4, r.left), innerWidth - g.width - 12);
+  const y = r.bottom + 4 + g.height + 12 <= innerHeight ? r.bottom + 4 : Math.max(4, r.top - g.height - 14);
+  globo.style.left = `${x}px`; globo.style.top = `${y}px`;
+}
+document.addEventListener('mouseover', (e) => {
+  const el = e.target.closest('[title], [data-globo]');
+  if (el === bajo) return;
+  if (el) mostrarGlobo(el); else { bajo = null; globo.hidden = true; }
+});
+document.addEventListener('mouseleave', () => { bajo = null; globo.hidden = true; });
+document.addEventListener('click', () => { bajo = null; globo.hidden = true; }, true);
+document.getElementById('cuerpo').addEventListener('scroll', () => { bajo = null; globo.hidden = true; }, { passive: true });
+// ── mover: arrastrar una barra (o una marca) la corre; un borde de una barra cambia solo ese extremo. Al soltar, telar
+// lo escribe donde vive (la celda de su documento, su tarea): si no puede, vuelve a su lugar y dice por qué
+const aviso = document.getElementById('aviso');
+let avisoHasta = 0;
+function avisar(texto, deshacer, falla) {
+  aviso.className = falla ? 'falla' : '';
+  aviso.innerHTML = esc(texto) + (deshacer ? '<a id="deshacer">deshacer</a>' : '');
+  aviso.hidden = false;
+  clearTimeout(avisoHasta);
+  avisoHasta = setTimeout(() => { aviso.hidden = true; }, falla ? 8000 : 6000);
+  if (deshacer) document.getElementById('deshacer').onclick = () => { aviso.hidden = true; deshacer(); };
+}
+const iso = (t) => new Date(t).toISOString().slice(0, 10);
+const masDias = (s, n) => iso(fecha(s) + n * DIA + 12 * 3600000);
+
+async function mover(f, inicio, fin, deshacer = true) {
+  const antes = { inicio: f.inicio, fin: f.fin };
+  try {
+    // el fin solo si se puede escribir (una fila sin columna de fin se mueve entera por su inicio) y si no es un día solo
+    const conFin = f.editable.includes('fin') && !(fin === inicio && f.inicio === f.fin);
+    const quedo = await L.pedir('fecha', { id: f.id, inicio, fin: conFin ? fin : undefined, version: f.version });
+    Object.assign(f, quedo);
+    pintar();
+    avisar(`${f.titulo}: ${quedo.inicio}${quedo.fin !== quedo.inicio ? ' → ' + quedo.fin : ''}`,
+      deshacer ? () => mover(f, antes.inicio, antes.fin, false) : null);
+  } catch (e) {
+    pintar();
+    avisar(`${f.titulo}: ${e.message}`, null, true);
+  }
+}
+
+let arrastre = null;
+document.getElementById('rejilla').addEventListener('pointerdown', (e) => {
+  const el = e.target.closest('.mueve');
+  if (!el || e.button !== 0) return;
+  const f = fechaPorId()[el.dataset.id];
+  if (!f) return;
+  const r = el.getBoundingClientRect();
+  const borde = el.classList.contains('barra') ? (e.clientX - r.left < 6 ? 'ini' : (el.classList.contains('fin') && r.right - e.clientX < 6 ? 'fin' : '')) : '';
+  arrastre = { el, f, x0: e.clientX, izq: parseFloat(el.style.left), ancho: parseFloat(el.style.width || '0'), borde, dias: 0 };
+  el.setPointerCapture(e.pointerId);
+  el.classList.add('arrastrando');
+  globo.hidden = true;
+  e.preventDefault();
+});
+document.addEventListener('pointermove', (e) => {
+  if (!arrastre) return;
+  const a = arrastre, px = ultimoX.px;
+  a.dias = Math.round((e.clientX - a.x0) / px);
+  const dx = a.dias * px;
+  if (a.borde === 'ini') { a.el.style.left = `${a.izq + Math.min(dx, a.ancho - px)}px`; a.el.style.width = `${a.ancho - Math.min(dx, a.ancho - px)}px`; }
+  else if (a.borde === 'fin') a.el.style.width = `${Math.max(px, a.ancho + dx)}px`;
+  else a.el.style.left = `${a.izq + dx}px`;
+  aviso.className = ''; aviso.textContent = `${a.dias > 0 ? '+' : ''}${a.dias} días`; aviso.hidden = !a.dias;
+});
+document.addEventListener('pointerup', () => {
+  if (!arrastre) return;
+  const { el, f, borde, dias } = arrastre;
+  arrastre = null;
+  el.classList.remove('arrastrando');
+  aviso.hidden = true;
+  if (!dias) return;
+  if (borde === 'ini') { const ini = masDias(f.inicio, dias); void mover(f, ini <= f.fin ? ini : f.fin, f.fin); }
+  else if (borde === 'fin') { const fin = masDias(f.fin, dias); void mover(f, f.inicio, fin >= f.inicio ? fin : f.inicio); }
+  else void mover(f, masDias(f.inicio, dias), masDias(f.fin, dias));
+});
+
+irHoy(pintar());
+</script></body></html>
