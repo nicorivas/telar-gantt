@@ -35,6 +35,11 @@ cambió, la fuente es de solo lectura), vuelve a su lugar con el porqué.
 La primera vez, la página pregunta si el módulo puede cambiar fechas (`[permisos] ordenes = ["fecha"]`). Lo
 concedido se revoca con `telar modulos permisos gantt --quitar fecha`.
 
+## El menú de un proyecto
+
+Clic derecho sobre un proyecto (su nombre, su barra o una de sus actividades) abre su menú, el mismo que en
+«proyectos» y en la barra de hilos: abrir con el agente, consolidar, el README, la carpeta, copiar su dirección.
+
 ## Archivos
 
 | Archivo | Qué es |

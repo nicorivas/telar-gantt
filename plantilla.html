@@ -25,7 +25,11 @@ header .dim { color: var(--dim); }
 header .i { font-size: 14px; }
 header .grupo { display: flex; gap: 0 1.2ch; }
 /* las áreas, con texto y en su color: la elegida, con fondo */
-#areas a { padding: 0 .5ch; } #areas a.si { color: var(--bg); background: var(--c, var(--fg)); }
+#areas a, #tipos a { padding: 0 .5ch; } #areas a.si { color: var(--bg); background: var(--c, var(--fg)); }
+#tipos a.si { color: var(--bg); background: var(--fg); }
+/* con «todos los tipos», cada tipo es un grupo con su título */
+.grupo-tipo { position: sticky; left: 0; padding: 6px 1ch 0; color: var(--fg); font-weight: bold; border-top: 1px solid var(--linea); }
+.grupo-tipo span { color: var(--dim); font-weight: normal; }
 .leyenda .i { margin-left: 1.5ch; }
 .act .etq .i { margin-right: .6ch; }
 .act .etq .candado { color: var(--dim); margin: 0 0 0 .6ch; }
@@ -80,6 +84,7 @@ header .grupo { display: flex; gap: 0 1.2ch; }
 <header>
   <span class="grupo"><a class="i" data-zoom="dia" title="zoom: un día por columna">&#xf00f6;</a><a class="i" data-zoom="semana" title="zoom: semanas">&#xf0a33;</a><a class="i" data-zoom="mes" title="zoom: meses">&#xf0e17;</a></span>
   <span class="grupo" id="areas"></span>
+  <span class="grupo" id="tipos"></span>
   <span><span class="i dim" title="filtrar">&#xeaf1;</span> <input id="filtro" placeholder="proyecto, cliente, persona, área" spellcheck="false" autocomplete="off"></span>
   <span class="grupo"><a class="i" id="solo" title="solo los que tienen cronograma">&#xf066c;</a><a class="i" id="todo" title="abrir todos">&#xeb95;</a><a class="i" id="nada" title="plegar todos">&#xeac5;</a><a class="i" id="ir-hoy" title="ir a hoy">&#xf01a4;</a></span>
   <span class="dim" id="cuenta"></span>
@@ -103,7 +108,7 @@ const esc = (t) => String(t ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '
 const norm = (t) => String(t ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 const fecha = (s) => Date.parse(s + 'T00:00:00');
 const L = window.lienzo || {};
-const mem = Object.assign({ zoom: 'semana', abiertos: [], filtro: '', solo: false, area: '' }, L.memoria || {});
+const mem = Object.assign({ zoom: 'semana', abiertos: [], filtro: '', solo: false, area: '', tipo: '' }, L.memoria || {});
 const guardar = () => { try { L.guardar && L.guardar(mem); } catch (e) { /* sin memoria: solo esta vez */ } };
 const hoy = fecha(DATOS.hoy);
 
@@ -112,11 +117,13 @@ function visibles() {
   return DATOS.proyectos.filter((p) => {
     if (mem.solo && !p.actividades.length) return false;
     if (mem.area && (p.area || 'sin área') !== mem.area) return false;
+    if (mem.tipo !== '*' && p.tipo !== mem.tipo) return false;
     if (!q) return true;
     const texto = norm([p.titulo, p.cliente, p.area, p.estado, p.ruta, p.plazo && p.plazo.responsable,
       ...p.actividades.flatMap((a) => [a.titulo, a.responsable]), ...p.tareas.map((t) => t.id + ' ' + t.titulo)].join(' '));
     return q.split(/\s+/).every((w) => texto.includes(w));
-  }).sort((a, b) => (a.area || 'ZZ').localeCompare(b.area || 'ZZ') || (a.inicio || '9').localeCompare(b.inicio || '9'));
+  }).sort((a, b) => (mem.tipo === '*' ? lugarTipo(a.tipo) - lugarTipo(b.tipo) : 0)
+    || (a.area || 'ZZ').localeCompare(b.area || 'ZZ') || (a.inicio || '9').localeCompare(b.inicio || '9'));
 }
 
 function rango(ps) {
@@ -130,6 +137,24 @@ function rango(ps) {
 }
 
 // las áreas que hay, en el orden de AREAS y después las otras; cada una con cuántos proyectos tiene
+// los tipos (el arquetipo de cada unidad: proyecto, deal, programa…), del que tiene más proyectos con plazo o con
+// actividades al que menos. Por defecto se ve solo el primero: lo que se ejecuta, no el funnel; «todos» los muestra
+// agrupados por tipo
+const TIPOS = (() => {
+  const peso = {};
+  for (const p of DATOS.proyectos) peso[p.tipo] = (peso[p.tipo] || 0) + (p.plazo || p.actividades.length ? 1 : 0.001);
+  return Object.keys(peso).sort((a, b) => peso[b] - peso[a] || a.localeCompare(b));
+})();
+const lugarTipo = (t) => TIPOS.indexOf(t);
+if (mem.tipo !== '*' && !TIPOS.includes(mem.tipo)) mem.tipo = TIPOS[0] || '*';
+
+function pintarTipos() {
+  const cuenta = {};
+  for (const p of DATOS.proyectos) cuenta[p.tipo] = (cuenta[p.tipo] || 0) + 1;
+  document.getElementById('tipos').innerHTML = (TIPOS.length > 1 ? `<a data-tipo="*" class="${mem.tipo === '*' ? 'si' : ''}" title="todos los tipos, agrupados">todos</a>` : '')
+    + TIPOS.map((t) => `<a data-tipo="${esc(t)}" class="${mem.tipo === t ? 'si' : ''}" title="${esc(`solo ${t}: ${cuenta[t]}`)}">${esc(t)} ${cuenta[t]}</a>`).join('');
+}
+
 function pintarAreas() {
   const cuenta = {};
   for (const p of DATOS.proyectos) cuenta[p.area || 'sin área'] = (cuenta[p.area || 'sin área'] || 0) + 1;
@@ -151,6 +176,7 @@ let ultimoX = { desde: 0, px: 1 };
 
 function pintar() {
   pintarAreas();
+  pintarTipos();
   for (const a of document.querySelectorAll('[data-zoom]')) a.classList.toggle('si', a.dataset.zoom === mem.zoom);
   document.getElementById('solo').classList.toggle('si', mem.solo);
   const ps = visibles();
@@ -178,7 +204,14 @@ function pintar() {
   // los fines de semana, con zoom de día
   const fondo = [];
   if (mem.zoom === 'dia') for (let t = desde; t < hasta; t += DIA) { const g = new Date(t).getDay(); if (g === 6) fondo.push(`<div class="finde" style="left:calc(var(--izq) + ${(t - desde) / DIA * px}px);width:${2 * px}px"></div>`); }
+  let tipoAnterior = null;
+  const porTipo = {};
+  for (const p of ps) porTipo[p.tipo] = (porTipo[p.tipo] || 0) + 1;
   for (const p of ps) {
+    if (mem.tipo === '*' && p.tipo !== tipoAnterior) {
+      tipoAnterior = p.tipo;
+      h.push(`<div class="grupo-tipo">${esc(p.tipo)} <span>${porTipo[p.tipo]}</span></div>`);
+    }
     const abierto = mem.abiertos.includes(p.ruta), color = AREAS[p.area] || 'var(--dim)';
     const tip = [p.titulo, p.cliente, p.area && `área ${p.area}`, p.estado && `estado ${p.estado}`, p.inicio && `${p.inicio} → ${p.fin}`,
       p.plazo ? [p.plazo.titulo !== p.titulo && p.plazo.titulo, p.plazo.responsable].filter(Boolean).join(' · ')
@@ -204,7 +237,7 @@ function pintar() {
       const cuerpo = evento
         ? `<div class="marca evento${mueve(a)}" data-id="${esc(a.id)}" style="left:${x(a.inicio) + px / 2}px" title="${esc(tipA)}"><i class="i">\u{f09d3}</i></div>`
         : `<div class="barra ${a.estado}${mueve(a)}" data-id="${esc(a.id)}" style="left:${x(a.inicio)}px;width:${Math.max(3, x(a.fin) - x(a.inicio) + px)}px" title="${esc(tipA)}"></div>`;
-      h.push(`<div class="fila act"><div class="etq" title="${esc(tipA)}"><span class="i ${a.estado}">${ESTADO_ICONO[a.estado] || ''}</span><span class="q">${esc(a.titulo)}</span>${PUEDE && !mueve(a) ? `<span class="i candado">${CANDADO}</span>` : ''}${a.responsable ? ' <span class="i">\u{ea67}</span> ' + esc(a.responsable) : ''}</div>`
+      h.push(`<div class="fila act" data-ruta="${esc(p.ruta)}"><div class="etq" title="${esc(tipA)}"><span class="i ${a.estado}">${ESTADO_ICONO[a.estado] || ''}</span><span class="q">${esc(a.titulo)}</span>${PUEDE && !mueve(a) ? `<span class="i candado">${CANDADO}</span>` : ''}${a.responsable ? ' <span class="i">\u{ea67}</span> ' + esc(a.responsable) : ''}</div>`
         + `<div class="linea" style="width:${ancho}px">${cuerpo}</div></div>`);
     }
   }
@@ -226,6 +259,7 @@ document.querySelector('header').addEventListener('click', (e) => {
   const a = e.target.closest('a');
   if (!a) return;
   if (a.dataset.area !== undefined) { mem.area = a.dataset.area; guardar(); pintar(); }
+  else if (a.dataset.tipo !== undefined) { mem.tipo = a.dataset.tipo; guardar(); pintar(); }
   else if (a.dataset.zoom) { mem.zoom = a.dataset.zoom; guardar(); irHoy(pintar()); }
   else if (a.id === 'solo') { mem.solo = !mem.solo; guardar(); pintar(); }
   else if (a.id === 'todo') { mem.abiertos = visibles().filter((p) => p.actividades.length).map((p) => p.ruta); guardar(); pintar(); }
@@ -339,6 +373,16 @@ document.addEventListener('pointerup', () => {
   if (borde === 'ini') { const ini = masDias(f.inicio, dias); void mover(f, ini <= f.fin ? ini : f.fin, f.fin); }
   else if (borde === 'fin') { const fin = masDias(f.fin, dias); void mover(f, f.inicio, fin >= f.inicio ? fin : f.inicio); }
   else void mover(f, masDias(f.inicio, dias), masDias(f.fin, dias));
+});
+
+// clic derecho sobre un proyecto (su nombre, su barra, o una de sus actividades): su menú, el mismo que en «proyectos»
+// y en la barra de hilos. Lo abre la página, donde se hizo clic (window.lienzo.pedir("menu"))
+document.getElementById('rejilla').addEventListener('contextmenu', (e) => {
+  const f = e.target.closest('.fila[data-ruta]');
+  if (!f || !PUEDE) return;
+  e.preventDefault();
+  globo.hidden = true;
+  L.pedir('menu', { direccion: `proyecto:${f.dataset.ruta}`, x: e.clientX, y: e.clientY }).catch(() => {});
 });
 
 irHoy(pintar());

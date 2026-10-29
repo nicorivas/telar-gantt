@@ -71,6 +71,8 @@ def datos(hoy: date | None = None) -> dict:
         proyectos.append({
             "ruta": ruta, "titulo": u.get("nombre") or ruta.rsplit("/", 1)[-1], "cliente": u.get("cliente", ""),
             "area": u.get("area", ""), "estado": u.get("estado", ""), "inicio": inicio, "fin": fin,
+            # su tipo, el arquetipo del perfil (proyecto, deal, programa…): el Gantt filtra o agrupa por él
+            "tipo": u.get("arquetipo", "") or "sin tipo",
             "barra": "plazo" if plazo else ("actividades" if adentro else ""),
             "plazo": plazo,
             "actividades": adentro,
