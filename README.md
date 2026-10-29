@@ -10,7 +10,7 @@ telar modulos instalar gantt                 # del catálogo
 telar modulos instalar --enlazar ./telar-gantt   # o desde aquí, para desarrollarlo
 ```
 
-Necesita telar 0.8.1 (`telar fechas`, subpestañas, `window.lienzo.pedir`).
+Necesita telar 0.8.1 (`telar fechas`, subpestañas, `window.lienzo.pedir`); el menú con clic derecho, 0.8.3.
 
 ## Qué dibuja
 
